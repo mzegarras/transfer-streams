@@ -3,16 +3,14 @@
 
 ![Kafka Streams](./images/kstreams.png "Architecture")
 
-
 ## Microbatch
 ![Kafka Streams](./images/microbatch.png "Architecture")
 
 ## Real time processing
 ![Realtime Processing](./images/realtime.png "Realtime Processing")
 
-## Caso práctico
-
-![Realtime Processing](./images/realtime.png "Realtime Processing")
+## Resumen de operaciones
+![Realtime Processing](./images/ResumenTX.png "Realtime Processing")
 
 ### Paso a paso
 
