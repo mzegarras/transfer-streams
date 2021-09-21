@@ -1,7 +1,23 @@
 
+# Realtime processing con Kafka Stream
 
+![Kafka Streams](./images/kstreams.png "Architecture")
+
+
+## Microbatch
+![Kafka Streams](./images/microbatch.png "Architecture")
+
+## Real time processing
+![Realtime Processing](./images/realtime.png "Realtime Processing")
+
+
+## Run
 
 ```shell
+
+cd ./scripts
+
+docker-compose up
 
 docker exec -it kafka01 bash
 
