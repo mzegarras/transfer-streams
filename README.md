@@ -10,6 +10,14 @@
 ## Real time processing
 ![Realtime Processing](./images/realtime.png "Realtime Processing")
 
+## Caso práctico
+
+![Realtime Processing](./images/realtime.png "Realtime Processing")
+
+### Paso a paso
+
+
+https://youtu.be/QMSdKVNpddc
 
 ## Run
 
