@@ -1,0 +1,10 @@
+{
+  "type": "object",
+  "javaType": "com.example.types.Transaction",
+  "properties": {
+    "originId": {"type": "string"},
+    "destinationId": {"type": "string"},
+    "amount": {"type": "number"},
+    "created": {"type": "string","format": "date-time"}
+  }
+}

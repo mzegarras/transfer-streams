@@ -1,0 +1,11 @@
+{
+  "type": "object",
+  "javaType": "com.example.types.StatisticsTransaction",
+  "properties": {
+    "acountId": {"type": "string"},
+    "totalAmount": {"type": "number"},
+    "starTime": {"type": "string","format": "date-time"},
+    "endTime": {"type": "string","format": "date-time"},
+    "numberOfTransactions": {"type": "integer"}
+  }
+}

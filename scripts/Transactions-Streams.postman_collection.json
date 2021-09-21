@@ -1,0 +1,121 @@
+{
+	"info": {
+		"_postman_id": "8237f0b0-a7aa-4bd7-b828-2d192ba4cc97",
+		"name": "Transactions-Streams",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Transaction-Ramdontime",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"transaction\":{\n        \"originId\":\"123456\",\n        \"destinationId\": \"654321\",\n        \"amount\": 4,\n        \"created\": \"2021-09-16T00:3{{randomMinutes19}}:{{randomSeconds05}}{{randomSeconds19}}.0-05:00\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/transactions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transactions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transaction-FixedAccount",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"transaction\":{\n        \"originId\":\"{{randomAccountsOrigin}}\",\n        \"destinationId\": \"654321\",\n        \"amount\": 1,\n        \"created\": \"2021-09-16T00:{{randomMinutes05}}{{randomMinutes19}}:{{randomSeconds05}}{{randomSeconds19}}.0-05:00\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/transactions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transactions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transaction-Test",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"transaction\":{\n        \"originId\":\"{{randomAccountsOrigin}}\",\n        \"destinationId\": \"654321\",\n        \"amount\": 1,\n        \"created\": \"2021-09-16T00:{{randomMinutes05}}{{randomMinutes19}}:{{randomSeconds05}}{{randomSeconds19}}.0-05:00\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/transactions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transactions"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"var accountsOrigin = [\"111111\", \"222222\", \"333333\",\"444444\"]",
+					"var randomAccountsOrigin = accountsOrigin[_.random(accountsOrigin.length - 1)];",
+					"",
+					"pm.environment.set(\"randomMinutes05\", _.random(0, 5))",
+					"pm.environment.set(\"randomMinutes19\", _.random(0, 9))",
+					"pm.environment.set(\"randomSeconds05\", _.random(0, 5))",
+					"pm.environment.set(\"randomSeconds19\", _.random(0, 9))",
+					"pm.environment.set(\"randomAccountsOrigin\",randomAccountsOrigin)",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

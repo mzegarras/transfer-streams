@@ -1,0 +1,10 @@
+spring:
+  kafka:
+    producer:
+      batch-size: 10
+      client-id: appId
+      bootstrap-servers: localhost:29092
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+#    properties:
+#      spring.json.add.type.headers: false
