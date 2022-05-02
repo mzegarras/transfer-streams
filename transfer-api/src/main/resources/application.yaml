@@ -6,5 +6,8 @@ spring:
       bootstrap-servers: localhost:29092
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+
+  #jackson.serialization.WRITE_DATES_AS_TIMESTAMPS: true
 #    properties:
 #      spring.json.add.type.headers: false
