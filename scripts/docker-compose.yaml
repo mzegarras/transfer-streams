@@ -2,7 +2,7 @@
 version: '3'
 services:
   zookeeper:
-    image: confluentinc/cp-zookeeper:latest
+    image: confluentinc/cp-zookeeper:7.0.1
     restart: always
     container_name: zookeeper
     environment:
@@ -11,7 +11,7 @@ services:
     ports:
       - "22181:2181"
   kafka01:
-    image: confluentinc/cp-kafka:latest
+    image: confluentinc/cp-kafka:7.0.1
     container_name: kafka01
     restart: always
     ports:
@@ -40,7 +40,6 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     depends_on:
       - zookeeper
-      - kafka01
   kafka03:
     image: confluentinc/cp-kafka:latest
     container_name: kafka03
@@ -55,9 +54,7 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     depends_on:
-      - zookeeper
-      - kafka01
-      - kafka02      
+      - zookeeper    
   kafka-setup:
       image: confluentinc/cp-kafka:latest
       container_name: kafka-setup
@@ -70,3 +67,28 @@ services:
         - kafka01
         - kafka02
         - kafka03
+  ksqldb-server:
+      image: confluentinc/ksqldb-server:0.25.1
+      hostname: ksqldb-server
+      container_name: ksqldb-server
+      depends_on:
+        - kafka01
+        - kafka02
+        - kafka03
+      ports:
+        - "8088:8088"
+      environment:
+        KSQL_LISTENERS: http://0.0.0.0:8088
+        KSQL_BOOTSTRAP_SERVERS: kafka01:9092,kafka02:9092,kafka03:9092
+        KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: "true"
+        KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: "true"
+  ksqldb-cli:
+      image: confluentinc/ksqldb-cli:0.25.1
+      container_name: ksqldb-cli
+      depends_on:
+        - kafka01
+        - kafka02
+        - kafka03
+        - ksqldb-server
+      entrypoint: /bin/sh
+      tty: true
