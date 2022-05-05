@@ -16,6 +16,16 @@
         "null",
         "string"
       ]
+    },
+    {
+      "name": "Created",
+      "type": [
+        "null",
+        {
+          "type": "long",
+          "logicalType": "timestamp-millis"
+        }
+      ]
     }
   ]
 }

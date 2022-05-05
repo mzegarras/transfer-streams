@@ -13,6 +13,9 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+
 @Service
 @AllArgsConstructor
 @Slf4j
@@ -29,12 +32,13 @@ public class OtpService {
 
         var event = OtpEvent.newBuilder()
                 .setTransactionId(txEvent.getTransactionId())
+                .setCreated( Instant.now())
                 .setCode(otp)
                         .build();
 
         kafkaTemplateAvro.send("t.otp",event.getTransactionId(),event)
                 .addCallback(stringTicketSendResult -> {
-                            log.info("Publish:{}",event.toString());
+                            log.info("Publish:{}",event);
                         },
                         throwable -> {
                             log.error("error",throwable);
@@ -47,6 +51,7 @@ public class OtpService {
         var event = OtpEvent.newBuilder()
                 .setTransactionId(otpConfirm.getTransactionId())
                 .setCode(otpConfirm.getOtp())
+                .setCreated(Instant.now())
                 .build();
 
         kafkaTemplateAvro.send("t.opt.user",otpConfirm.getTransactionId(),event)

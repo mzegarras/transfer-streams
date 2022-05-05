@@ -14,13 +14,16 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class OtpEvent extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 5084105871935797125L;
+  private static final long serialVersionUID = -4133771368927668162L;
 
 
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"OtpEvent\",\"namespace\":\"cloud.csonic.types.avro\",\"fields\":[{\"name\":\"Code\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}]},{\"name\":\"TransactionId\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}]}]}");
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"OtpEvent\",\"namespace\":\"cloud.csonic.types.avro\",\"fields\":[{\"name\":\"Code\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}]},{\"name\":\"TransactionId\",\"type\":[\"null\",{\"type\":\"string\",\"avro.java.string\":\"String\"}]},{\"name\":\"Created\",\"type\":[\"null\",{\"type\":\"long\",\"logicalType\":\"timestamp-millis\"}]}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static final SpecificData MODEL$ = new SpecificData();
+  static {
+    MODEL$.addLogicalTypeConversion(new org.apache.avro.data.TimeConversions.TimestampMillisConversion());
+  }
 
   private static final BinaryMessageEncoder<OtpEvent> ENCODER =
       new BinaryMessageEncoder<OtpEvent>(MODEL$, SCHEMA$);
@@ -75,6 +78,7 @@ public class OtpEvent extends org.apache.avro.specific.SpecificRecordBase implem
 
   private java.lang.String Code;
   private java.lang.String TransactionId;
+  private java.time.Instant Created;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -87,10 +91,12 @@ public class OtpEvent extends org.apache.avro.specific.SpecificRecordBase implem
    * All-args constructor.
    * @param Code The new value for Code
    * @param TransactionId The new value for TransactionId
+   * @param Created The new value for Created
    */
-  public OtpEvent(java.lang.String Code, java.lang.String TransactionId) {
+  public OtpEvent(java.lang.String Code, java.lang.String TransactionId, java.time.Instant Created) {
     this.Code = Code;
     this.TransactionId = TransactionId;
+    this.Created = Created;
   }
 
   public org.apache.avro.specific.SpecificData getSpecificData() { return MODEL$; }
@@ -100,6 +106,7 @@ public class OtpEvent extends org.apache.avro.specific.SpecificRecordBase implem
     switch (field$) {
     case 0: return Code;
     case 1: return TransactionId;
+    case 2: return Created;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -110,6 +117,7 @@ public class OtpEvent extends org.apache.avro.specific.SpecificRecordBase implem
     switch (field$) {
     case 0: Code = value$ != null ? value$.toString() : null; break;
     case 1: TransactionId = value$ != null ? value$.toString() : null; break;
+    case 2: Created = (java.time.Instant)value$; break;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -146,6 +154,23 @@ public class OtpEvent extends org.apache.avro.specific.SpecificRecordBase implem
    */
   public void setTransactionId(java.lang.String value) {
     this.TransactionId = value;
+  }
+
+  /**
+   * Gets the value of the 'Created' field.
+   * @return The value of the 'Created' field.
+   */
+  public java.time.Instant getCreated() {
+    return Created;
+  }
+
+
+  /**
+   * Sets the value of the 'Created' field.
+   * @param value the value to set.
+   */
+  public void setCreated(java.time.Instant value) {
+    this.Created = value;
   }
 
   /**
@@ -191,6 +216,7 @@ public class OtpEvent extends org.apache.avro.specific.SpecificRecordBase implem
 
     private java.lang.String Code;
     private java.lang.String TransactionId;
+    private java.time.Instant Created;
 
     /** Creates a new Builder */
     private Builder() {
@@ -211,6 +237,10 @@ public class OtpEvent extends org.apache.avro.specific.SpecificRecordBase implem
         this.TransactionId = data().deepCopy(fields()[1].schema(), other.TransactionId);
         fieldSetFlags()[1] = other.fieldSetFlags()[1];
       }
+      if (isValidValue(fields()[2], other.Created)) {
+        this.Created = data().deepCopy(fields()[2].schema(), other.Created);
+        fieldSetFlags()[2] = other.fieldSetFlags()[2];
+      }
     }
 
     /**
@@ -226,6 +256,10 @@ public class OtpEvent extends org.apache.avro.specific.SpecificRecordBase implem
       if (isValidValue(fields()[1], other.TransactionId)) {
         this.TransactionId = data().deepCopy(fields()[1].schema(), other.TransactionId);
         fieldSetFlags()[1] = true;
+      }
+      if (isValidValue(fields()[2], other.Created)) {
+        this.Created = data().deepCopy(fields()[2].schema(), other.Created);
+        fieldSetFlags()[2] = true;
       }
     }
 
@@ -309,6 +343,46 @@ public class OtpEvent extends org.apache.avro.specific.SpecificRecordBase implem
       return this;
     }
 
+    /**
+      * Gets the value of the 'Created' field.
+      * @return The value.
+      */
+    public java.time.Instant getCreated() {
+      return Created;
+    }
+
+
+    /**
+      * Sets the value of the 'Created' field.
+      * @param value The value of 'Created'.
+      * @return This builder.
+      */
+    public cloud.csonic.types.avro.OtpEvent.Builder setCreated(java.time.Instant value) {
+      validate(fields()[2], value);
+      this.Created = value;
+      fieldSetFlags()[2] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'Created' field has been set.
+      * @return True if the 'Created' field has been set, false otherwise.
+      */
+    public boolean hasCreated() {
+      return fieldSetFlags()[2];
+    }
+
+
+    /**
+      * Clears the value of the 'Created' field.
+      * @return This builder.
+      */
+    public cloud.csonic.types.avro.OtpEvent.Builder clearCreated() {
+      Created = null;
+      fieldSetFlags()[2] = false;
+      return this;
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public OtpEvent build() {
@@ -316,6 +390,7 @@ public class OtpEvent extends org.apache.avro.specific.SpecificRecordBase implem
         OtpEvent record = new OtpEvent();
         record.Code = fieldSetFlags()[0] ? this.Code : (java.lang.String) defaultValue(fields()[0]);
         record.TransactionId = fieldSetFlags()[1] ? this.TransactionId : (java.lang.String) defaultValue(fields()[1]);
+        record.Created = fieldSetFlags()[2] ? this.Created : (java.time.Instant) defaultValue(fields()[2]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;
@@ -343,75 +418,6 @@ public class OtpEvent extends org.apache.avro.specific.SpecificRecordBase implem
     READER$.read(this, SpecificData.getDecoder(in));
   }
 
-  @Override protected boolean hasCustomCoders() { return true; }
-
-  @Override public void customEncode(org.apache.avro.io.Encoder out)
-    throws java.io.IOException
-  {
-    if (this.Code == null) {
-      out.writeIndex(0);
-      out.writeNull();
-    } else {
-      out.writeIndex(1);
-      out.writeString(this.Code);
-    }
-
-    if (this.TransactionId == null) {
-      out.writeIndex(0);
-      out.writeNull();
-    } else {
-      out.writeIndex(1);
-      out.writeString(this.TransactionId);
-    }
-
-  }
-
-  @Override public void customDecode(org.apache.avro.io.ResolvingDecoder in)
-    throws java.io.IOException
-  {
-    org.apache.avro.Schema.Field[] fieldOrder = in.readFieldOrderIfDiff();
-    if (fieldOrder == null) {
-      if (in.readIndex() != 1) {
-        in.readNull();
-        this.Code = null;
-      } else {
-        this.Code = in.readString();
-      }
-
-      if (in.readIndex() != 1) {
-        in.readNull();
-        this.TransactionId = null;
-      } else {
-        this.TransactionId = in.readString();
-      }
-
-    } else {
-      for (int i = 0; i < 2; i++) {
-        switch (fieldOrder[i].pos()) {
-        case 0:
-          if (in.readIndex() != 1) {
-            in.readNull();
-            this.Code = null;
-          } else {
-            this.Code = in.readString();
-          }
-          break;
-
-        case 1:
-          if (in.readIndex() != 1) {
-            in.readNull();
-            this.TransactionId = null;
-          } else {
-            this.TransactionId = in.readString();
-          }
-          break;
-
-        default:
-          throw new java.io.IOException("Corrupt ResolvingDecoder.");
-        }
-      }
-    }
-  }
 }
 
 
