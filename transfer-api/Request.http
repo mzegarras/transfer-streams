@@ -1,0 +1,32 @@
+POST http://localhost:8080/transactions
+Content-Type: application/json
+
+{
+  "transaction":{
+    "originId":"19310001",
+    "destinationId": "123456",
+    "amount": 300,
+    "created": "2022-05-05T08:05:03-05:00",
+    "transactionId": "3"
+  }
+}
+
+###
+
+POST http://localhost:8080/transactions/1
+Content-Type: application/json
+
+{
+  "otp":{
+    "otp":"1160"
+  }
+}
+###
+POST http://localhost:8080/transactions/1
+Content-Type: application/json
+
+{
+"otp":{
+"otp":"1161"
+}
+}

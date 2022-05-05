@@ -1,0 +1,46 @@
+{
+  "namespace": "cloud.csonic.types.avro",
+  "type": "record",
+  "name": "TransactionEvent",
+  "fields": [
+    {
+      "name": "OriginId",
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    {
+      "name": "DestinationId",
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    {
+      "name": "Amount",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "name": "Created",
+      "type": [
+        "null",
+        {
+          "type": "long",
+          "logicalType": "timestamp-millis"
+        }
+      ]
+    },
+    {
+      "name": "TransactionId",
+      "type": [
+        "null",
+        "string"
+      ]
+    }
+  ]
+}
+

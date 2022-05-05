@@ -18,10 +18,46 @@
         <java.version>11</java.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <kafka.version>2.8.0</kafka.version>
+        <kafka.version>3.0.0</kafka.version>
+        <avro.version>1.11.0</avro.version>
+        <confluent.kafka.avro.serializer.version>7.1.1</confluent.kafka.avro.serializer.version>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>confluent</id>
+            <url>https://packages.confluent.io/maven/</url>
+        </repository>
+    </repositories>
+
     <dependencies>
+
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
+
+        <!-- Avro dependency-->
+        <dependency>
+            <groupId>org.apache.avro</groupId>
+            <artifactId>avro</artifactId>
+            <version>${avro.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.confluent</groupId>
+            <artifactId>kafka-avro-serializer</artifactId>
+            <version>${confluent.kafka.avro.serializer.version}</version>
+        </dependency>
+
+          <!-- https://mvnrepository.com/artifact/io.confluent/monitoring-interceptors -->
+        <dependency>
+            <groupId>io.confluent</groupId>
+            <artifactId>monitoring-interceptors</artifactId>
+            <version>6.2.1</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -33,13 +69,12 @@
             <artifactId>spring-kafka</artifactId>
         </dependency>
 
-        <dependency>
+        <!--dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
-        </dependency>
-
+        </dependency-->
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -114,6 +149,53 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.avro</groupId>
+                <artifactId>avro-maven-plugin</artifactId>
+                <version>${avro.version}</version>
+
+                <executions>
+                    <execution>
+                        <!-- phase>none</phase-->
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>schema</goal>
+                        </goals>
+                    </execution>
+                </executions>
+
+
+                <configuration>
+                    <sourceDirectory>${project.basedir}/src/main/resources/schemas/avro/</sourceDirectory>
+                    <outputDirectory>${project.basedir}/src/main/java/</outputDirectory>
+                    <enableDecimalLogicalType>true</enableDecimalLogicalType>
+                    <stringType>String</stringType>
+                    <imports>
+                        <import>${project.basedir}/src/main/resources/schemas/avro/TransactionEvent.avsc</import>
+                        <!--import>${project.basedir}/src/main/resources/avro/book.avsc</import>
+                        <import>${project.basedir}/src/main/resources/avro/user.avsc</import>
+                        <import>${project.basedir}/src/main/resources/avro/library.avsc</import>
+                        <import>${project.basedir}/src/main/resources/avro/Avro11Country.avsc</import>
+                        <import>${project.basedir}/src/main/resources/avro/Avro11Address.avsc</import>
+                        <import>${project.basedir}/src/main/resources/avro/Avro11BankAccount.avsc</import>
+
+
+                        <import>${project.basedir}/src/main/resources/avro/AvroDestination.avsc</import>
+                        <import>${project.basedir}/src/main/resources/avro/AvroAttachment.avsc</import>
+                        <import>${project.basedir}/src/main/resources/avro/AvroTemplateMessage.avsc</import>
+                        <import>${project.basedir}/src/main/resources/avro/AvroNotification.avsc</import>
+                        <import>${project.basedir}/src/main/resources/avro/AvroArrayNotification.avsc</import-->
+
+
+                    </imports>
+                    <includes>
+                        <include>*.avsc</include>
+                    </includes>
+                </configuration>
+
+
             </plugin>
 
         </plugins>

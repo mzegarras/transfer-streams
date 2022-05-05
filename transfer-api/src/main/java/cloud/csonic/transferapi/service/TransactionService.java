@@ -1,8 +1,7 @@
 package cloud.csonic.transferapi.service;
 
 
-
-import com.example.types.Transaction;
+import cloud.csonic.types.avro.TransactionEvent;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -13,13 +12,17 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class TransactionService {
 
-    private final KafkaTemplate<String, Transaction> kafkaTemplate;
 
-    public void publish(Transaction transaction){
+    private final KafkaTemplate<String, TransactionEvent> kafkaTemplateAvro;
 
-        kafkaTemplate.send("t.transactions",transaction.getOriginId(),transaction)
+
+    public void publishAvro(TransactionEvent event){
+
+
+
+        kafkaTemplateAvro.send("t.transactions",event.getOriginId(),event)
                 .addCallback(stringTicketSendResult -> {
-                            log.info("Ok:{}",transaction.toString());
+                            log.info("Ok:{}",event);
                         },
                         throwable -> {
                             log.error("error",throwable);

@@ -1,10 +1,8 @@
 
-package com.example.types;
+package com.bcp.types;
 
 import java.time.ZonedDateTime;
 import javax.annotation.processing.Generated;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -14,7 +12,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "originId",
     "destinationId",
     "amount",
-    "created"
+    "created",
+    "transactionId"
 })
 @Generated("jsonschema2pojo")
 public class Transaction {
@@ -25,12 +24,10 @@ public class Transaction {
     private String destinationId;
     @JsonProperty("amount")
     private Double amount;
-
-//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
-    //yyy-MM-dd'T'HH:mm:ssZ
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     @JsonProperty("created")
     private ZonedDateTime created;
+    @JsonProperty("transactionId")
+    private String transactionId;
 
     @JsonProperty("originId")
     public String getOriginId() {
@@ -92,6 +89,21 @@ public class Transaction {
         return this;
     }
 
+    @JsonProperty("transactionId")
+    public String getTransactionId() {
+        return transactionId;
+    }
+
+    @JsonProperty("transactionId")
+    public void setTransactionId(String transactionId) {
+        this.transactionId = transactionId;
+    }
+
+    public Transaction withTransactionId(String transactionId) {
+        this.transactionId = transactionId;
+        return this;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -111,6 +123,10 @@ public class Transaction {
         sb.append("created");
         sb.append('=');
         sb.append(((this.created == null)?"<null>":this.created));
+        sb.append(',');
+        sb.append("transactionId");
+        sb.append('=');
+        sb.append(((this.transactionId == null)?"<null>":this.transactionId));
         sb.append(',');
         if (sb.charAt((sb.length()- 1)) == ',') {
             sb.setCharAt((sb.length()- 1), ']');

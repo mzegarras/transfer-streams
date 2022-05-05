@@ -1,13 +1,26 @@
+logger:
+  kafka.authorizer.logger: ALL
+  kafka:authorizer: DEBUG
+
 spring:
   kafka:
-    producer:
-      batch-size: 10
-      client-id: appId
-      bootstrap-servers: localhost:29092
+    bootstrap-servers: localhost:29092,localhost:39092,localhost:49092
+    consumer:
+      group-id: otp-consumer-01
+      auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      properties:
+        specific.avro.reader: true
+        #interceptor.classes: io.confluent.monitoring.clients.interceptor.MonitoringConsumerInterceptor
+    producer:
+      batch-size: 5
+      client-id: appId01
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+    properties:
+      auto.register.schemas: false
+      use.latest.version: true
+      value.subject.name.strategy: io.confluent.kafka.serializers.subject.TopicNameStrategy
+      schema.registry.url: http://localhost:8081
 
-
-  #jackson.serialization.WRITE_DATES_AS_TIMESTAMPS: true
-#    properties:
-#      spring.json.add.type.headers: false

@@ -1,7 +1,6 @@
 package cloud.csonic.transferapi.dto;
 
-
-import com.bcp.types.Transaction;
+import com.bcp.types.OtpConfirm;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,8 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TransactionDto {
+public class OtpConfirmDto {
 
-    private Transaction transaction;
-
+    private OtpConfirm otp;
 }

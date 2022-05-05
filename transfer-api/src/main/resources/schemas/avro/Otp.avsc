@@ -1,0 +1,22 @@
+{
+  "namespace": "cloud.csonic.types.avro",
+  "type": "record",
+  "name": "OtpEvent",
+  "fields": [
+    {
+      "name": "Code",
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    {
+      "name": "TransactionId",
+      "type": [
+        "null",
+        "string"
+      ]
+    }
+  ]
+}
+

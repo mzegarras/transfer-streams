@@ -2,7 +2,7 @@
 version: '3'
 services:
   zookeeper:
-    image: confluentinc/cp-zookeeper:7.1.0
+    image: confluentinc/cp-zookeeper:7.0.1
     restart: always
     container_name: zookeeper
     environment:
@@ -11,7 +11,7 @@ services:
     ports:
       - "22181:2181"
   kafka01:
-    image: confluentinc/cp-kafka:7.1.0
+    image: confluentinc/cp-kafka:7.0.1
     container_name: kafka01
     restart: always
     ports:
@@ -26,7 +26,7 @@ services:
     depends_on:
       - zookeeper
   kafka02:
-    image: confluentinc/cp-kafka:7.1.0
+    image: confluentinc/cp-kafka:latest
     container_name: kafka02
     restart: always
     ports:
@@ -41,7 +41,7 @@ services:
     depends_on:
       - zookeeper
   kafka03:
-    image: confluentinc/cp-kafka:7.1.0
+    image: confluentinc/cp-kafka:latest
     container_name: kafka03
     restart: always
     ports:
@@ -56,16 +56,12 @@ services:
     depends_on:
       - zookeeper    
   kafka-setup:
-      image: confluentinc/cp-kafka:7.1.0
+      image: confluentinc/cp-kafka:latest
       container_name: kafka-setup
       restart: "no"
       entrypoint: >
         bash -c  "sleep 30 &&
-                  kafka-topics --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 3 --topic t.transactions &&
-                  kafka-topics --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 3 --topic t.otp &&
-                  kafka-topics --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 3 --topic t.opt.user &&
-                  kafka-topics --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 3 --topic t.transactions.ok"
-                  
+                  kafka-topics --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 3 --topic t.transactions"
       depends_on:
         - zookeeper
         - kafka01
@@ -84,22 +80,8 @@ services:
       environment:
         KSQL_LISTENERS: http://0.0.0.0:8088
         KSQL_BOOTSTRAP_SERVERS: kafka01:9092,kafka02:9092,kafka03:9092
-        KSQL_KSQL_SCHEMA_REGISTRY_URL: "http://schema-registry:8081"
         KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: "true"
         KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: "true"
-        # # Configuration to embed Kafka Connect support.
-        # KSQL_CONNECT_GROUP_ID: "ksql-connect-cluster"
-        # KSQL_CONNECT_BOOTSTRAP_SERVERS: "broker:9092"
-        # KSQL_CONNECT_KEY_CONVERTER: "org.apache.kafka.connect.storage.StringConverter"
-        # KSQL_CONNECT_VALUE_CONVERTER: "io.confluent.connect.avro.AvroConverter"
-        # KSQL_CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: "http://schema-registry:8081"
-        # KSQL_CONNECT_CONFIG_STORAGE_TOPIC: "_ksql-connect-configs"
-        # KSQL_CONNECT_OFFSET_STORAGE_TOPIC: "_ksql-connect-offsets"
-        # KSQL_CONNECT_STATUS_STORAGE_TOPIC: "_ksql-connect-statuses"
-        # KSQL_CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: 1
-        # KSQL_CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: 1
-        # KSQL_CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 1
-        # KSQL_CONNECT_PLUGIN_PATH: "/usr/share/kafka/plugins"
   ksqldb-cli:
       image: confluentinc/ksqldb-cli:0.25.1
       container_name: ksqldb-cli
@@ -110,17 +92,3 @@ services:
         - ksqldb-server
       entrypoint: /bin/sh
       tty: true
-  schema-registry:
-    image: confluentinc/cp-schema-registry:7.1.0
-    hostname: schema-registry
-    container_name: schema-registry
-    depends_on:
-        - zookeeper
-        - kafka01
-        - kafka02
-        - kafka03
-    ports:
-      - "8081:8081"
-    environment:
-      SCHEMA_REGISTRY_HOST_NAME: schema-registry
-      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: "PLAINTEXT://kafka01:9092,PLAINTEXT://kafka02:9092,PLAINTEXT://kafka03:9092"

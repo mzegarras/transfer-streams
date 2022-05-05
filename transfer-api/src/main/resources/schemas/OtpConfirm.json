@@ -1,0 +1,8 @@
+{
+  "type": "object",
+  "javaType": "com.bcp.types.OtpConfirm",
+  "properties": {
+    "otp": {"type": "string"},
+    "transactionId": {"type": "string"}
+  }
+}

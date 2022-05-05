@@ -1,13 +1,14 @@
 package cloud.csonic.transferapi.api;
 
 
+import cloud.csonic.transferapi.dto.OtpConfirmDto;
 import cloud.csonic.transferapi.dto.TransactionDto;
+import cloud.csonic.transferapi.service.OtpService;
 import cloud.csonic.transferapi.service.TransactionService;
+import cloud.csonic.types.avro.TransactionEvent;
+import com.bcp.types.OtpConfirm;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -16,14 +17,39 @@ import org.springframework.web.bind.annotation.RestController;
 public class TransactionApi {
 
     private final TransactionService transactionService;
+    private final OtpService otpService;
 
     @PostMapping()
-    public TransactionDto createOrder(@RequestBody TransactionDto request ){
+    public TransactionDto createOrderAvro(@RequestBody TransactionDto request ){
 
-        transactionService.publish(request.getTransaction());
+        TransactionEvent event = TransactionEvent.newBuilder()
+                .setOriginId(request.getTransaction().getOriginId())
+                .setDestinationId(request.getTransaction().getDestinationId())
+                .setAmount(request.getTransaction().getAmount())
+                .setCreated(request.getTransaction().getCreated().toInstant())
+                .setTransactionId(request.getTransaction().getTransactionId())
+                .build();
+
+        transactionService.publishAvro(event);
 
         return TransactionDto.builder()
                 .transaction(request.getTransaction())
+                .build();
+
+    }
+
+    @PostMapping("/{id}")
+    public OtpConfirmDto confirmOtp(@RequestBody OtpConfirmDto request,@PathVariable String id ){
+
+
+        var otpConfirm = new OtpConfirm();
+        otpConfirm.setOtp(request.getOtp().getOtp());
+        otpConfirm.setTransactionId(id);
+
+        otpService.confirmOtp(otpConfirm);
+
+        return OtpConfirmDto.builder()
+                .otp(request.getOtp())
                 .build();
 
     }
